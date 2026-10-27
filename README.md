@@ -1,12 +1,12 @@
 # Automatyzacja pozyskiwania i analizy danych z teleturnieju „Milionerzy”
 
-**Python · Web Scraping · SQLite · CSV · Power Query · Excel · tabele przestawne · kontrola jakości danych · raportowanie PDF**
+**Python · Web Scraping · SQLite · SQL · Microsoft Access · Excel · Power Query · tabele przestawne · kontrola jakości danych · raportowanie PDF**
 
 ## 1. Problem i cel
 
-Pytania i odpowiedzi z teleturnieju „Milionerzy” są publikowane w osobnych artykułach na stronie Polsatu. Ręczne zebranie danych z kilkudziesięciu lub kilkuset publikacji jest czasochłonne, a różnice w formatowaniu treści utrudniają ich porządkowanie.
+Pytania i odpowiedzi z teleturnieju „Milionerzy” są publikowane w osobnych artykułach na stronie Polsatu. Ręczne zbieranie i porządkowanie informacji z wielu publikacji jest czasochłonne i podatne na błędy.
 
-Celem projektu było **zautomatyzowanie procesu — od wyszukania artykułów, przez ekstrakcję i weryfikację danych, aż po przygotowanie raportu analitycznego**.
+Celem projektu było **zautomatyzowanie pozyskiwania, weryfikacji i raportowania danych**, a następnie wykorzystanie zgromadzonego zbioru do analiz w Microsoft Excel i Access.
 
 ## 2. Rozwiązanie
 
@@ -14,14 +14,14 @@ Przygotowany w Pythonie system realizuje sześć etapów:
 
 1. **Wyszukiwanie** — automatyczne odnajdywanie artykułów dotyczących kolejnych odcinków.
 2. **Ekstrakcja** — pobieranie pytań, wariantów odpowiedzi, poprawnych odpowiedzi i kwot.
-3. **Archiwizacja** — zapisywanie uporządkowanych rekordów w SQLite i eksport do CSV.
+3. **Archiwizacja** — zapisywanie rekordów w SQLite i eksport do CSV.
 4. **Kontrola jakości** — wykrywanie brakujących wartości, niespójności i duplikatów.
 5. **Analiza statystyczna** — obliczanie rozkładów odpowiedzi, kwot i statystyk odcinków.
 6. **Raportowanie** — automatyczne generowanie raportu PDF z tabelami, wykresami i wnioskami.
 
 ### Przykład pozyskanych danych
 
-Każde pytanie jest zapisywane jako osobny rekord zawierający numer odcinka, kwotę, treść pytania, cztery warianty odpowiedzi oraz poprawny wariant.
+Każde pytanie jest osobnym rekordem zawierającym numer odcinka, kwotę, treść pytania, cztery warianty odpowiedzi i poprawny wariant.
 
 ![Przykładowe dane po automatycznej ekstrakcji](screenshots/screenshot3.png)
 
@@ -41,44 +41,71 @@ Każde pytanie jest zapisywane jako osobny rekord zawierający numer odcinka, kw
 
 *Przykładowy przebieg automatycznego pobierania i przetwarzania danych.*
 
-Wszystkie 119 przetworzonych artykułów uzyskało status `ok`. Wynik ten nie stanowi niezależnego potwierdzenia kompletności całego archiwum.
+Wszystkie 119 przetworzonych artykułów uzyskało status `ok`. Nie oznacza to niezależnego potwierdzenia kompletności całego archiwum.
 
-## 4. Kontrola jakości i analiza danych
+## 4. Kontrola jakości i raportowanie PDF
 
-Moduł walidacji sprawdza kompletność rekordów, poprawność oznaczeń odpowiedzi, zgodność liczby pytań z danymi odcinków oraz występowanie identycznych pytań po normalizacji tekstu.
+Moduł walidacji sprawdza kompletność rekordów, poprawność oznaczeń odpowiedzi, spójność liczby pytań oraz występowanie identycznych pytań po normalizacji tekstu.
 
-Na podstawie zgromadzonych informacji program automatycznie przygotowuje raport PDF zawierający statystyki, wykresy i wyniki kontroli jakości.
+Na podstawie danych SQLite program automatycznie generuje raport PDF ze statystykami, wykresami i wynikami kontroli jakości.
 
-Przykładowy wynik: w analizowanym zbiorze najczęściej występowała poprawna odpowiedź **B (359 przypadków)**, a najrzadziej **A (252 przypadki)**.
+W analizowanym zbiorze najczęściej występowała poprawna odpowiedź **B (359 przypadków)**, a najrzadziej **A (252 przypadki)**.
 
 ![Automatycznie wygenerowany raport analityczny](screenshots/screenshot2.png)
 
-*Fragment raportu PDF wygenerowanego na podstawie danych SQLite.*
+*Fragment raportu PDF wygenerowanego w Pythonie.*
 
 **[Zobacz pełny raport analityczny PDF](reports/raport_milionerzy.pdf)**
 
 ## 5. Interaktywna analiza danych w Microsoft Excel
 
-Dane zaimportowano do Microsoft Excel za pomocą **Power Query**, a następnie wykorzystano do utworzenia tabel przestawnych i interaktywnego panelu analitycznego.
+Dane zaimportowano do Microsoft Excel za pomocą **Power Query**, a następnie przygotowano tabele przestawne i interaktywny dashboard.
 
-Dashboard przedstawia liczbę pytań i odcinków, średnią liczbę pytań na odcinek oraz wykresy rozkładu poprawnych odpowiedzi i liczby pytań według kwot.
+Panel przedstawia liczbę pytań i odcinków, średnią liczbę pytań na odcinek, rozkład poprawnych odpowiedzi oraz liczbę pytań według kwot.
 
 ![Dashboard Excel — pełny zbiór danych](screenshots/screenshot4.png)
 
 *Dashboard prezentujący statystyki całego zbioru 1 229 pytań.*
 
-Zastosowanie **fragmentatora** umożliwia jednoczesne filtrowanie obu wykresów według wybranych odcinków, bez konieczności ręcznego przeliczania danych.
+**Fragmentator** pozwala filtrować oba wykresy według wybranych odcinków.
 
-![Dashboard Excel — filtrowanie trzech odcinków](screenshots/screenshot5.png)
+![Dashboard Excel — wybrane odcinki](screenshots/screenshot5.png)
 
-*Przykład interaktywnej analizy po wybraniu trzech odcinków. Wykresy aktualizują się zgodnie z zastosowanym filtrem, a wskaźniki u góry przedstawiają statystyki całej bazy.*
+*Przykład analizy trzech odcinków. Wykresy aktualizują się po zastosowaniu filtra, natomiast górne wskaźniki przedstawiają statystyki całego zbioru.*
 
-**[Pobierz skoroszyt z interaktywnym dashboardem](reports/Milionerzy_Analiza.ods)**
+**[Pobierz skoroszyt z interaktywnym dashboardem](spreadsheets/Milionerzy_Analiza.ods)**
 
-Plik zawiera arkusz Dashboard z interaktywną analizą oraz arkusz Milionerzy_Analiza z pełnym zbiorem 1 229 pytań.
+## 6. Relacyjna baza danych i analiza w Microsoft Access
 
-## 6. Praktyczne zastosowanie
+Zgromadzone dane wykorzystano również do utworzenia bazy Microsoft Access.
 
-Projekt pokazuje, jak przekształcić rozproszone informacje internetowe w uporządkowany i weryfikowalny zbiór danych, gotowy do dalszej analizy.
+Baza zawiera dwie powiązane tabele: **Odcinki** i **Pytania**, połączone relacją jeden-do-wielu z wymuszoną integralnością referencyjną.
 
-Łączy **automatyzację w Pythonie, kontrolę jakości danych, raportowanie PDF oraz analizę w Excelu**. Zastosowane podejście może być wykorzystane w zadaniach związanych z pozyskiwaniem danych, analizą informacji i przygotowywaniem cyklicznych zestawień.
+![Relacje między tabelami w Microsoft Access](screenshots/screenshot6.png)
+
+*Model relacyjny łączący informacje o odcinkach z przypisanymi do nich pytaniami.*
+
+Przygotowano również dwie kwerendy:
+
+- **Analiza_odcinkow** — zestawienie dat publikacji, liczby pytań i maksymalnych kwot dla poszczególnych odcinków.
+- **Pytania_najwyzsze_kwoty** — zestawienie pytań o najwyższych przypisanych kwotach.
+
+![Wyniki kwerendy w Microsoft Access](screenshots/screenshot7.png)
+
+*Przykładowe wyniki analizy danych z wykorzystaniem kwerend SQL.*
+
+Na podstawie kwerendy przygotowano wielostronicowy raport prezentujący statystyki poszczególnych odcinków.
+
+![Raport Microsoft Access](screenshots/screenshot8.png)
+
+*Fragment raportu przedstawiającego liczbę pytań i maksymalną kwotę dla każdego odcinka.*
+
+**[Pobierz bazę Microsoft Access (.accdb)](database/Milionerzy_Analiza.accdb)**
+
+**[Zobacz pełny raport Access w PDF](reports/Raport_Access.pdf)**
+
+## 7. Praktyczne zastosowanie
+
+Projekt pokazuje pełny proces pracy z danymi: **od automatycznego pozyskiwania informacji, przez ich kontrolę i przechowywanie, po analizę i prezentację wyników**.
+
+Łączy programowanie w Pythonie z praktycznym wykorzystaniem **SQL, Microsoft Access, Power Query, tabel przestawnych i raportowania**. Podobne podejście można zastosować do automatyzacji powtarzalnych zadań analitycznych i przygotowywania zestawień biznesowych.

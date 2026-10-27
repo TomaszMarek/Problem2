@@ -24,6 +24,16 @@ Rozwiązanie miało również umożliwiać kontrolę jakości zgromadzonych reko
 
 **Etap 3 — porządkowanie i archiwizacja.** Dane są zapisywane w relacyjnej bazie SQLite oraz eksportowane do plików CSV, co umożliwia ich dalsze przetwarzanie.
 
+### Przykład uporządkowanych danych
+
+Każde wyodrębnione pytanie jest zapisywane jako osobny rekord zawierający numer odcinka, kolejność pytania, przypisaną kwotę, treść pytania, cztery warianty odpowiedzi oraz oznaczenie poprawnego wariantu.
+
+Dzięki zastosowaniu jednolitej struktury dane pochodzące z różnych artykułów mogą być wspólnie filtrowane, porównywane i analizowane bez konieczności ręcznego porządkowania ich zawartości.
+
+![Przykładowe dane po automatycznej ekstrakcji](screenshots/screenshot3.png)
+
+*Fragment pliku CSV otwartego w arkuszu kalkulacyjnym. Każdy wiersz reprezentuje jedno pytanie, a poszczególne kolumny zawierają wyodrębnione informacje przygotowane do dalszej analizy.*
+
 **Etap 4 — kontrola jakości.** Osobny moduł analizuje rekordy pod kątem brakujących wartości, nieprawidłowych danych, niespójności i identycznych pytań.
 
 **Etap 5 — analiza statystyczna.** Program oblicza podstawowe statystyki, między innymi rozkład poprawnych odpowiedzi, liczbę pytań według kwot i średnią liczbę pytań na odcinek.
@@ -50,9 +60,9 @@ W analizowanym zbiorze zgromadzono:
 
 Wszystkie 119 przetworzonych artykułów uzyskało status `ok`. Nie oznacza to jednak niezależnego potwierdzenia kompletności całego archiwum.
 
-## 5. Testy i kontrola jakości danych
+## 5. Automatyczna kontrola jakości danych
 
-Do weryfikacji danych przygotowano osobny moduł analityczny, który sprawdza m.in.:
+Do weryfikacji zgromadzonych informacji przygotowano osobny moduł analityczny, który sprawdza poprawność i spójność zapisanych rekordów.
 
 | Scenariusz | Zakres kontroli |
 |---|---|
@@ -64,8 +74,6 @@ Do weryfikacji danych przygotowano osobny moduł analityczny, który sprawdza m.
 | Brakujący artykuł | Wykrywanie luk w numeracji odnalezionych odcinków |
 
 **Wynik kontroli:** w aktualnym zbiorze nie wykryto problemów objętych zaimplementowanymi regułami walidacji.
-
-Kontrola nie obejmuje oceny semantycznego podobieństwa pytań ani niezależnego porównania każdego rekordu z artykułem źródłowym.
 
 ## 6. Analiza statystyczna i automatyczne raportowanie
 

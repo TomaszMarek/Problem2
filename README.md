@@ -115,7 +115,7 @@ Na podstawie kwerendy `Analiza_odcinkow` przygotowano wielostronicowy raport pre
 
 **[Pobierz bazę Microsoft Access (.accdb)](database/Milionerzy_Analiza.accdb)**
 
-**[Zobacz pełny raport Access w PDF](reports/Raport analizy odcinków.pdf)**
+**[Zobacz pełny raport Access w PDF](reports/Raport_Access.pdf)**
 ## 7. Praktyczne zastosowanie
 
 Projekt pokazuje pełny proces pracy z danymi: **od automatycznego pozyskiwania informacji, przez ich kontrolę i przechowywanie, po analizę i prezentację wyników**.

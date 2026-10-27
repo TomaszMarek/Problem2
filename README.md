@@ -1,100 +1,80 @@
-# Automatyzacja pozyskiwania, analizy i raportowania danych z teleturnieju „Milionerzy”
+# Automatyzacja pozyskiwania i analizy danych z teleturnieju „Milionerzy”
 
-**Python · Web Scraping · SQLite · kontrola jakości danych · analiza statystyczna · raportowanie PDF**
+**Python · Web Scraping · SQLite · CSV · Power Query · Excel · tabele przestawne · kontrola jakości danych · raportowanie PDF**
 
-## 1. Problem
+## 1. Problem i cel
 
-Pytania i odpowiedzi z teleturnieju „Milionerzy” są publikowane w osobnych artykułach na stronie Polsatu. Każdy artykuł zawiera kilka lub kilkanaście pytań, cztery warianty odpowiedzi, poprawny wariant oraz kwotę przypisaną do danego pytania.
+Pytania i odpowiedzi z teleturnieju „Milionerzy” są publikowane w osobnych artykułach na stronie Polsatu. Ręczne zebranie danych z kilkudziesięciu lub kilkuset publikacji jest czasochłonne, a różnice w formatowaniu treści utrudniają ich porządkowanie.
 
-Ręczne zebranie tych informacji wymagałoby otwierania kolejnych artykułów, kopiowania danych i przypisywania ich do odpowiednich odcinków. Przy większej liczbie publikacji proces staje się czasochłonny i podatny na błędy.
+Celem projektu było **zautomatyzowanie procesu — od wyszukania artykułów, przez ekstrakcję i weryfikację danych, aż po przygotowanie raportu analitycznego**.
 
-Dodatkowym utrudnieniem są różnice w formatowaniu artykułów oraz sposobie zapisywania poprawnych odpowiedzi.
+## 2. Rozwiązanie
 
-## 2. Cel
+Przygotowany w Pythonie system realizuje sześć etapów:
 
-Celem było stworzenie narzędzia, które automatycznie odnajduje artykuły, wyodrębnia zawarte w nich informacje i zapisuje je w uporządkowanej bazie danych.
+1. **Wyszukiwanie** — automatyczne odnajdywanie artykułów dotyczących kolejnych odcinków.
+2. **Ekstrakcja** — pobieranie pytań, wariantów odpowiedzi, poprawnych odpowiedzi i kwot.
+3. **Archiwizacja** — zapisywanie uporządkowanych rekordów w SQLite i eksport do CSV.
+4. **Kontrola jakości** — wykrywanie brakujących wartości, niespójności i duplikatów.
+5. **Analiza statystyczna** — obliczanie rozkładów odpowiedzi, kwot i statystyk odcinków.
+6. **Raportowanie** — automatyczne generowanie raportu PDF z tabelami, wykresami i wnioskami.
 
-Rozwiązanie miało również umożliwiać kontrolę jakości zgromadzonych rekordów, wykrywanie brakujących danych, wykonywanie podstawowych analiz statystycznych oraz automatyczne generowanie raportu PDF.
+### Przykład pozyskanych danych
 
-## 3. Rozwiązanie
-
-**Etap 1 — wyszukiwanie artykułów.** Program rozpoczyna pracę od wskazanej strony i automatycznie wykrywa odnośniki do kolejnych odcinków.
-
-**Etap 2 — pobieranie i ekstrakcja danych.** Zawartość HTML jest analizowana w celu wyodrębnienia pytań, wariantów odpowiedzi, poprawnych odpowiedzi i przypisanych kwot.
-
-**Etap 3 — porządkowanie i archiwizacja.** Dane są zapisywane w relacyjnej bazie SQLite oraz eksportowane do plików CSV, co umożliwia ich dalsze przetwarzanie.
-
-### Przykład uporządkowanych danych
-
-Każde wyodrębnione pytanie jest zapisywane jako osobny rekord zawierający numer odcinka, kolejność pytania, przypisaną kwotę, treść pytania, cztery warianty odpowiedzi oraz oznaczenie poprawnego wariantu.
-
-Dzięki zastosowaniu jednolitej struktury dane pochodzące z różnych artykułów mogą być wspólnie filtrowane, porównywane i analizowane bez konieczności ręcznego porządkowania ich zawartości.
+Każde pytanie jest zapisywane jako osobny rekord zawierający numer odcinka, kwotę, treść pytania, cztery warianty odpowiedzi oraz poprawny wariant.
 
 ![Przykładowe dane po automatycznej ekstrakcji](screenshots/screenshot3.png)
 
-*Fragment pliku CSV otwartego w arkuszu kalkulacyjnym. Każdy wiersz reprezentuje jedno pytanie, a poszczególne kolumny zawierają wyodrębnione informacje przygotowane do dalszej analizy.*
+*Fragment uporządkowanego zbioru danych wyeksportowanego do CSV.*
 
-**Etap 4 — kontrola jakości.** Osobny moduł analizuje rekordy pod kątem brakujących wartości, nieprawidłowych danych, niespójności i identycznych pytań.
-
-**Etap 5 — analiza statystyczna.** Program oblicza podstawowe statystyki, między innymi rozkład poprawnych odpowiedzi, liczbę pytań według kwot i średnią liczbę pytań na odcinek.
-
-**Etap 6 — raportowanie.** Na podstawie aktualnej zawartości bazy automatycznie generowany jest raport PDF z tabelami, wykresami, wynikami kontroli jakości i krótkimi wnioskami.
-
-## 4. Rezultaty
-
-W analizowanym zbiorze zgromadzono:
+## 3. Rezultaty
 
 | Wskaźnik | Wynik |
 |---|---:|
-| Poprawnie przetworzone artykuły | 119 |
-| Wyodrębnione pytania | 1 229 |
+| Przetworzone artykuły | **119** |
+| Wyodrębnione pytania | **1 229** |
 | Średnia liczba pytań na odcinek | 10,33 |
-| Minimalna liczba pytań na odcinek | 4 |
-| Maksymalna liczba pytań na odcinek | 14 |
-| Problemy wykryte przez moduł kontroli jakości | 0 |
+| Problemy wykryte przez moduł walidacji | 0 |
 | Luki w numeracji odnalezionych artykułów | 1 (odcinek 81) |
 
 ![Wyniki automatycznego przetwarzania artykułów](screenshots/screenshot1.png)
 
-*Przykładowy przebieg programu przedstawiający liczbę pytań wyodrębnionych z poszczególnych artykułów.*
+*Przykładowy przebieg automatycznego pobierania i przetwarzania danych.*
 
-Wszystkie 119 przetworzonych artykułów uzyskało status `ok`. Nie oznacza to jednak niezależnego potwierdzenia kompletności całego archiwum.
+Wszystkie 119 przetworzonych artykułów uzyskało status `ok`. Wynik ten nie stanowi niezależnego potwierdzenia kompletności całego archiwum.
 
-## 5. Automatyczna kontrola jakości danych
+## 4. Kontrola jakości i analiza danych
 
-Do weryfikacji zgromadzonych informacji przygotowano osobny moduł analityczny, który sprawdza poprawność i spójność zapisanych rekordów.
+Moduł walidacji sprawdza kompletność rekordów, poprawność oznaczeń odpowiedzi, zgodność liczby pytań z danymi odcinków oraz występowanie identycznych pytań po normalizacji tekstu.
 
-| Scenariusz | Zakres kontroli |
-|---|---|
-| Brakujące wartości | Wykrywanie niekompletnych rekordów |
-| Nieprawidłowa odpowiedź | Sprawdzanie poprawności oznaczeń A–D |
-| Nieprawidłowa kwota | Kontrola wartości przypisanych do pytań |
-| Duplikaty | Wykrywanie identycznych pytań po normalizacji tekstu |
-| Niespójność danych | Porównanie liczby pytań z informacjami o odcinkach |
-| Brakujący artykuł | Wykrywanie luk w numeracji odnalezionych odcinków |
+Na podstawie zgromadzonych informacji program automatycznie przygotowuje raport PDF zawierający statystyki, wykresy i wyniki kontroli jakości.
 
-**Wynik kontroli:** w aktualnym zbiorze nie wykryto problemów objętych zaimplementowanymi regułami walidacji.
-
-## 6. Analiza statystyczna i automatyczne raportowanie
-
-Zgromadzone dane wykorzystano do przygotowania raportu analitycznego, generowanego automatycznie z bazy SQLite.
-
-Raport przedstawia między innymi rozkład poprawnych odpowiedzi A–D, liczbę pytań przypadających na poszczególne kwoty oraz wyniki kontroli jakości.
-
-W analizowanym zbiorze najczęściej występowała poprawna odpowiedź **B (359 przypadków)**, a najrzadziej **A (252 przypadki)**. Liczba zarejestrowanych pytań zmniejszała się wraz z kolejnymi progami kwotowymi.
-
-Są to obserwacje opisowe dotyczące zgromadzonego zbioru, a nie podstawa do przewidywania przyszłych odpowiedzi.
+Przykładowy wynik: w analizowanym zbiorze najczęściej występowała poprawna odpowiedź **B (359 przypadków)**, a najrzadziej **A (252 przypadki)**.
 
 ![Automatycznie wygenerowany raport analityczny](screenshots/screenshot2.png)
 
-*Fragment raportu PDF przedstawiający statystyki i wyniki analizy danych.*
+*Fragment raportu PDF wygenerowanego na podstawie danych SQLite.*
 
-**[Zobacz przykładowy raport analityczny PDF](reports/raport_milionerzy.pdf)**
+**[Zobacz pełny raport analityczny PDF](reports/raport_milionerzy.pdf)**
 
-## 7. Praktyczne wykorzystanie
+## 5. Interaktywna analiza danych w Microsoft Excel
 
-Projekt pokazuje możliwość przekształcenia rozproszonych treści internetowych w uporządkowany zbiór danych, który można następnie kontrolować, analizować i prezentować w postaci raportów.
+Dane zaimportowano do Microsoft Excel za pomocą **Power Query**, a następnie wykorzystano do utworzenia tabel przestawnych i interaktywnego panelu analitycznego.
 
-Zastosowane podejście może być wykorzystane również przy innych zadaniach wymagających automatycznego pozyskiwania informacji, porządkowania rekordów, wykrywania nieprawidłowości oraz przygotowywania cyklicznych zestawień.
+Dashboard przedstawia liczbę pytań i odcinków, średnią liczbę pytań na odcinek oraz wykresy rozkładu poprawnych odpowiedzi i liczby pytań według kwot.
 
-Najważniejszym rezultatem jest zautomatyzowanie całego procesu — od pobrania danych źródłowych po wygenerowanie czytelnego raportu analitycznego.
+![Dashboard Excel — pełny zbiór danych](screenshots/screenshot4.png)
+
+*Dashboard prezentujący statystyki całego zbioru 1 229 pytań.*
+
+Zastosowanie **fragmentatora** umożliwia jednoczesne filtrowanie obu wykresów według wybranych odcinków, bez konieczności ręcznego przeliczania danych.
+
+![Dashboard Excel — filtrowanie trzech odcinków](screenshots/screenshot5.png)
+
+*Przykład interaktywnej analizy po wybraniu trzech odcinków. Wykresy aktualizują się zgodnie z zastosowanym filtrem, a wskaźniki u góry przedstawiają statystyki całej bazy.*
+
+## 6. Praktyczne zastosowanie
+
+Projekt pokazuje, jak przekształcić rozproszone informacje internetowe w uporządkowany i weryfikowalny zbiór danych, gotowy do dalszej analizy.
+
+Łączy **automatyzację w Pythonie, kontrolę jakości danych, raportowanie PDF oraz analizę w Excelu**. Zastosowane podejście może być wykorzystane w zadaniach związanych z pozyskiwaniem danych, analizą informacji i przygotowywaniem cyklicznych zestawień.

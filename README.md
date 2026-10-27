@@ -73,7 +73,7 @@ Zastosowanie **fragmentatora** umożliwia jednoczesne filtrowanie obu wykresów 
 
 *Przykład interaktywnej analizy po wybraniu trzech odcinków. Wykresy aktualizują się zgodnie z zastosowanym filtrem, a wskaźniki u góry przedstawiają statystyki całej bazy.*
 
-Pobierz skoroszyt z interaktywnym dashboardem
+**[Pobierz skoroszyt z interaktywnym dashboardem](reports/Milionerzy_Analiza.ods)**
 
 Plik zawiera arkusz Dashboard z interaktywną analizą oraz arkusz Milionerzy_Analiza z pełnym zbiorem 1 229 pytań.
 

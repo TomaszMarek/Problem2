@@ -29,19 +29,9 @@ Każde pytanie jest osobnym rekordem zawierającym numer odcinka, kwotę, treś�
 
 ## 3. Rezultaty
 
-| Wskaźnik | Wynik |
-|---|---:|
-| Przetworzone artykuły | **119** |
-| Wyodrębnione pytania | **1 229** |
-| Średnia liczba pytań na odcinek | 10,33 |
-| Problemy wykryte przez moduł walidacji | 0 |
-| Luki w numeracji odnalezionych artykułów | 1 (odcinek 81) |
-
 ![Wyniki automatycznego przetwarzania artykułów](screenshots/screenshot1.png)
 
 *Przykładowy przebieg automatycznego pobierania i przetwarzania danych.*
-
-Wszystkie 119 przetworzonych artykułów uzyskało status `ok`. Nie oznacza to niezależnego potwierdzenia kompletności całego archiwum.
 
 ## 4. Kontrola jakości i raportowanie PDF
 

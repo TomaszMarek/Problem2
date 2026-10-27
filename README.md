@@ -77,33 +77,45 @@ Panel przedstawia liczbę pytań i odcinków, średnią liczbę pytań na odcine
 
 ## 6. Relacyjna baza danych i analiza w Microsoft Access
 
-Zgromadzone dane wykorzystano również do utworzenia bazy Microsoft Access.
+Dane wykorzystano również do utworzenia bazy Microsoft Access, zawierającej tabele **Odcinki** i **Pytania**, połączone relacją jeden-do-wielu z wymuszoną integralnością referencyjną.
 
-Baza zawiera dwie powiązane tabele: **Odcinki** i **Pytania**, połączone relacją jeden-do-wielu z wymuszoną integralnością referencyjną.
+![Relacja tabel w Microsoft Access](screenshots/screenshot6.png)
 
-![Relacje między tabelami w Microsoft Access](screenshots/screenshot6.png)
+*Relacja 1:N umożliwia powiązanie każdego pytania z odpowiednim odcinkiem.*
 
-*Model relacyjny łączący informacje o odcinkach z przypisanymi do nich pytaniami.*
+### Przykłady zapytań SQL
 
-Przygotowano również dwie kwerendy:
+**1. Analiza statystyk poszczególnych odcinków**
 
-- **Analiza_odcinkow** — zestawienie dat publikacji, liczby pytań i maksymalnych kwot dla poszczególnych odcinków.
-- **Pytania_najwyzsze_kwoty** — zestawienie pytań o najwyższych przypisanych kwotach.
+![Kod SQL — analiza odcinków](screenshots/screenshot9.png)
 
-![Wyniki kwerendy w Microsoft Access](screenshots/screenshot7.png)
+*Połącz tabele Odcinki i Pytania według numeru odcinka. Dla każdego odcinka policz liczbę pytań, znajdź najwyższą przypisaną kwotę i uporządkuj wyniki według numerów odcinków.*
 
-*Przykładowe wyniki analizy danych z wykorzystaniem kwerend SQL.*
+![Wyniki analizy odcinków](screenshots/Screenshot10.png)
 
-Na podstawie kwerendy przygotowano wielostronicowy raport prezentujący statystyki poszczególnych odcinków.
+*Wynik: zestawienie numerów odcinków, dat publikacji, liczby pytań i maksymalnych kwot.*
+
+**2. Wyszukiwanie pytań o najwyższych kwotach**
+
+![Kod SQL — pytania o najwyższych kwotach](screenshots/screenshot11.png)
+
+*Połącz tabele Odcinki i Pytania. Wybierz pytania o wartości co najmniej 500 000 zł, wyświetl ich treść, poprawną odpowiedź i informacje o odcinku. Posortuj wyniki malejąco według kwoty, a następnie rosnąco według numeru odcinka.*
+
+![Wyniki wyszukiwania pytań](screenshots/screenshot12.png)
+
+*Wynik: lista pytań o najwyższych kwotach wraz z informacjami o odcinkach i poprawnych odpowiedziach.*
+
+### Raport Microsoft Access
+
+Na podstawie kwerendy `Analiza_odcinkow` przygotowano wielostronicowy raport prezentujący liczbę pytań i maksymalne kwoty dla poszczególnych odcinków.
 
 ![Raport Microsoft Access](screenshots/screenshot8.png)
 
-*Fragment raportu przedstawiającego liczbę pytań i maksymalną kwotę dla każdego odcinka.*
+*Fragment raportu analitycznego przygotowanego w Microsoft Access.*
 
 **[Pobierz bazę Microsoft Access (.accdb)](database/Milionerzy_Analiza.accdb)**
 
 **[Zobacz pełny raport Access w PDF](reports/Raport_Access.pdf)**
-
 ## 7. Praktyczne zastosowanie
 
 Projekt pokazuje pełny proces pracy z danymi: **od automatycznego pozyskiwania informacji, przez ich kontrolę i przechowywanie, po analizę i prezentację wyników**.
